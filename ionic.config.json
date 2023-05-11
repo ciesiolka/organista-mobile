@@ -1,0 +1,7 @@
+{
+  "name": "organista-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
