@@ -16,6 +16,7 @@ onMounted(() => {
   }
 
   div = songDiv.value as HTMLElement;
+
   const rendererFunc = (txt: string) => (div as HTMLElement).innerHTML += txt;
   const errFunc = (err: string) => console.log({ err });
 
@@ -24,7 +25,18 @@ onMounted(() => {
     errmsg: errFunc
   });
 
-  abcRenderer.tosvg('title', props.abc);
+  abcRenderer.tosvg('title',
+    `%%beginml
+    <style>.underline{text-decoration:underline}</style>
+%%endml
+%%vocalfont  Arial 14
+%%setfont-1  sans-serif 14
+%%setfont-2  sans-serifItalic 14
+%%setfont-3  * * class=underline
+%%pagescale  1.2
+X:1
+${props.abc}`
+  );
 });
 
 </script>

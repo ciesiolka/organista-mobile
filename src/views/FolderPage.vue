@@ -29,11 +29,11 @@
 import ScoreRenderer from '@/components/ScoreRenderer.vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 
-const abcContent = `X:1
-K:C
+const abcContent = `K:C
 M:4/4
 L:1/4
-C C`;
+C C C2
+w: $2Ktokolwiek~wie,~co~zrobił $3Je-$1zus`;
 </script>
 
 <style scoped>
