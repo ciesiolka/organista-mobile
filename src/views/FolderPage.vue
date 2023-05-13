@@ -16,16 +16,24 @@
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
+        <score-renderer :abc="abcContent"></score-renderer>
+          <!-- <div id="container">
         <strong class="capitalize">{{ $route.params.id }}</strong>
         <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
+      </div> -->
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
+import ScoreRenderer from '@/components/ScoreRenderer.vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+
+const abcContent = `X:1
+K:C
+M:4/4
+L:1/4
+C C`;
 </script>
 
 <style scoped>
