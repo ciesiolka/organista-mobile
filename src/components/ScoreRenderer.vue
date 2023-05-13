@@ -25,18 +25,18 @@ onMounted(() => {
     errmsg: errFunc
   });
 
-  abcRenderer.tosvg('title',
-    `%%beginml
-    <style>.underline{text-decoration:underline}</style>
-%%endml
-%%vocalfont  Arial 14
-%%setfont-1  sans-serif 14
-%%setfont-2  sans-serifItalic 14
-%%setfont-3  * * class=underline
-%%pagescale  1.2
-X:1
-${props.abc}`
-  );
+  abcRenderer.tosvg('title', [
+    "%%beginml",
+    "<style>.underline{text-decoration:underline}</style>",
+    "%%endml",
+    "%%vocalfont  sans-serif 14",
+    "%%setfont-1  sans-serif 14",
+    "%%setfont-2  sans-serifItalic 14",
+    "%%setfont-3  * * class=underline",
+    "%%pagescale  1.3",
+    "X:1",
+    `${props.abc}`
+].join("\n"));
 });
 
 </script>
