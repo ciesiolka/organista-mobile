@@ -7,12 +7,12 @@ import PatternTildeEl from "./Type/PatternTildeEl";
 
 type PhrasePattern = Array<PatternEl>
 type PhraseLine = Array<PhrasePattern>
-type VerseTrackerType = { verse: number, syllable: number };
+type VerseTrackerType = { phrase: number, syllable: number };
 
 class LyricsPatternParser {
   public parse(patternLines: string[]): PhraseLine[] {
     const linePhrases: PhraseLine[] = [];
-    let verseTracker = { verse: 0, syllable: 0 };
+    let verseTracker: VerseTrackerType = { phrase: 0, syllable: 0 };
     for (const line of patternLines) {
       linePhrases.push(this.parseLine(line, verseTracker))
     }
@@ -35,7 +35,8 @@ class LyricsPatternParser {
       return [];
     }
     const elsArray = Array.from(elsMatch);
-    ++verseTracker.verse;
+    ++verseTracker.phrase;
+    verseTracker.syllable = 0
     for (const el of elsArray) {
       if (el.charAt(0) === '<') {
         this.parseArrowSymbol(el, verseTracker);
@@ -70,14 +71,14 @@ class LyricsPatternParser {
         type: 's',
         content: content.replace('\\"', '"'),
         syllable: ++verseTracker.syllable,
-        verse:  verseTracker.verse
+        phrase:  verseTracker.phrase
       }
     } else if (symbol.charAt(0) === "'") {
       return {
         type: 's',
         content: content.replace("\\'", "'"),
         syllable: ++verseTracker.syllable,
-        verse:  verseTracker.verse
+        phrase:  verseTracker.phrase
       }
     }
     throw new Error(`Unsupported symbol: ${symbol}`);
@@ -86,14 +87,14 @@ class LyricsPatternParser {
   private parseTildeSymbol(symbol: string, verseTracker: VerseTrackerType): PatternTildeEl {
     return {
       type: "~",
-      verse: verseTracker.verse,
+      phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
     }
   }
 
   private parseDotSymbol(symbol: string, verseTracker: VerseTrackerType): PatternDotEl {
     return {
-      verse: verseTracker.verse,
+      phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
       length: symbol.length,
       type: '.',
@@ -116,7 +117,7 @@ class LyricsPatternParser {
     const syllableNumber = matches[3];
 
     if (verseNumber) {
-      verseTracker.verse = +verseNumber;
+      verseTracker.phrase = +verseNumber;
     }
     if (syllableNumber) {
       verseTracker.syllable = +syllableNumber - 1;
@@ -125,7 +126,7 @@ class LyricsPatternParser {
 
   private parseQuestionSymbol(symbol: string, verseTracker: VerseTrackerType): PatternQuestionEl {
     return {
-      verse: verseTracker.verse,
+      phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
       type: '?',
     }  }

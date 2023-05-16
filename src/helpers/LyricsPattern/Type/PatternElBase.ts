@@ -1,5 +1,5 @@
 type PatternElBase = {
-  verse: number,
+  phrase: number,
   syllable: number
 }
 
