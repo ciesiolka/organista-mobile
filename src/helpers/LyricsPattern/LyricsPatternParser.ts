@@ -52,14 +52,14 @@ class LyricsPatternParser {
       case '.':
         return this.parseDotSymbol(symbol, verseTracker);
       case '*':
-        return this.parseStarSymbol(symbol, verseTracker);
+        return this.parseStarSymbol(symbol);
       case '~':
-        return this.parseTildeSymbol(symbol, verseTracker);
+        return this.parseTildeSymbol(verseTracker);
       case "'":
       case '"':
         return this.parseStringSymbol(symbol, verseTracker);
       case '?':
-        return this.parseQuestionSymbol(symbol, verseTracker);
+        return this.parseQuestionSymbol(verseTracker);
     }
     throw new Error(`Unsupported symbol received: ${symbol}`);
   }
@@ -84,7 +84,7 @@ class LyricsPatternParser {
     throw new Error(`Unsupported symbol: ${symbol}`);
   }
 
-  private parseTildeSymbol(symbol: string, verseTracker: VerseTrackerType): PatternTildeEl {
+  private parseTildeSymbol(verseTracker: VerseTrackerType): PatternTildeEl {
     return {
       type: "~",
       phrase: verseTracker.phrase,
@@ -101,7 +101,7 @@ class LyricsPatternParser {
     }
   }
 
-  private parseStarSymbol(symbol: string, verseTracker: VerseTrackerType): PatternStarEl {
+  private parseStarSymbol(symbol: string): PatternStarEl {
     return {
       type: '*',
       length: symbol.length
@@ -124,7 +124,7 @@ class LyricsPatternParser {
     }
   }
 
-  private parseQuestionSymbol(symbol: string, verseTracker: VerseTrackerType): PatternQuestionEl {
+  private parseQuestionSymbol(verseTracker: VerseTrackerType): PatternQuestionEl {
     return {
       phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
