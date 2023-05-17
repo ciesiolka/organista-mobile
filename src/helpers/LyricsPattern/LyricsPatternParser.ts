@@ -36,7 +36,7 @@ class LyricsPatternParser {
 
   private parsePhrase(patternPhrase: string, verseTracker: VerseTrackerType): PhrasePattern {
     const output: PhrasePattern = [];
-    const elsMatch = patternPhrase.match(/(\.-*)|(\*+)|(~)|(\?)|("(\\"|[^"])+")|('(\\'|[^'])')|(<\d+(,\d+)?>)+/ig);
+    const elsMatch = patternPhrase.match(/(\.-*)|(\*+)|(~)|(\?)|("(\\"|[^"])+")|('(\\'|[^'])+')|(<\d+(,-?\d+)?>)+/ig);
     if (!elsMatch) {
       return [];
     }
@@ -115,7 +115,7 @@ class LyricsPatternParser {
   }
 
   private parseArrowSymbol(symbol: string, verseTracker: VerseTrackerType): void {
-    const matches = symbol.match(/<(\d+)(,(\d+))?>/);
+    const matches = symbol.match(/<(\d+)(,(-?\d+))?>/);
     if (!matches) {
       throw new Error(`Symbol must be a valid arrow symbol. Received: ${symbol}`);
     }
