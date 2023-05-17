@@ -233,4 +233,20 @@ describe("Lyrics pattern parser", () => {
 
     expect(firstPhrase[0]).toEqual({ type: 's', content: 'A"', phrase: 1, syllable: 1 });
   });
+
+  it("Parses question mark", () => {
+    const pattern = '?';
+
+    const parsedLines = parser.parse([pattern]);
+    expect(parsedLines).toHaveLength(1);
+
+    const firstLinePhrases = parsedLines[0];
+    expect(firstLinePhrases).toHaveLength(1);
+
+    const firstPhrase = firstLinePhrases[0];
+    expect(firstPhrase).toHaveLength(1);
+
+    expect(firstPhrase[0]).toEqual({ type: '?', phrase: 1, syllable: 1 });
+  });
+
 })
