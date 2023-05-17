@@ -67,6 +67,22 @@ describe("Lyrics pattern parser", () => {
     expect(secondPhrase).toHaveLength(1);
 
     expect(secondPhrase[0]).toEqual({ type: '.', length: 1, phrase: 2, syllable: 1});
+  });
 
+  it("Star doesn't affect syllable or verse", () => {
+    const pattern = '.*.';
+
+    const parsedLines = parser.parse([pattern]);
+    expect(parsedLines).toHaveLength(1);
+
+    const firstLinePhrases = parsedLines[0];
+    expect(firstLinePhrases).toHaveLength(1);
+
+    const firstPhrase = firstLinePhrases[0];
+    expect(firstPhrase).toHaveLength(3);
+
+    expect(firstPhrase[0]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 1 });
+    expect(firstPhrase[1]).toEqual({ type: '*', length: 1 });
+    expect(firstPhrase[2]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 2 });
   })
 })
