@@ -10,9 +10,15 @@ type PhraseLine = Array<PhrasePattern>
 type VerseTrackerType = { phrase: number, syllable: number };
 
 class LyricsPatternParser {
+  /**
+   * 
+   * @param patternLines Array of tokens - one string for each line
+   * @returns Array of lines, each line is an array of phrases, each phrase is an array of Pattern elements (tokens).
+   * The return type is Array<Array<Array<PatternEl>>>
+   */
   public parse(patternLines: string[]): PhraseLine[] {
     const linePhrases: PhraseLine[] = [];
-    let verseTracker: VerseTrackerType = { phrase: 0, syllable: 0 };
+    const verseTracker: VerseTrackerType = { phrase: 0, syllable: 0 };
     for (const line of patternLines) {
       linePhrases.push(this.parseLine(line, verseTracker))
     }
@@ -30,7 +36,7 @@ class LyricsPatternParser {
 
   private parsePhrase(patternPhrase: string, verseTracker: VerseTrackerType): PhrasePattern {
     const output: PhrasePattern = [];
-    const elsMatch = patternPhrase.match(/(\.-*)|(\*+)|(~)|(\?)|"(\\\"|[^\"])+"|'(\\\'|[^\']|\<\d+(,\d+)?\>)+'/ig);
+    const elsMatch = patternPhrase.match(/(\.-*)|(\*+)|(~)|(\?)|("(\\"|[^"])+")|('(\\'|[^'])')|(<\d+(,\d+)?>)+/ig);
     if (!elsMatch) {
       return [];
     }
@@ -109,12 +115,13 @@ class LyricsPatternParser {
   }
 
   private parseArrowSymbol(symbol: string, verseTracker: VerseTrackerType): void {
-    const matches = symbol.match(/\<(\d)(,(\d+))?\>/);
+    const matches = symbol.match(/<(\d+)(,(\d+))?>/);
     if (!matches) {
       throw new Error(`Symbol must be a valid arrow symbol. Received: ${symbol}`);
     }
-    const verseNumber = matches[1];
-    const syllableNumber = matches[3];
+    const matchesArr = Array.from(matches);
+    const verseNumber = matchesArr[1];
+    const syllableNumber = matchesArr[3];
 
     if (verseNumber) {
       verseTracker.phrase = +verseNumber;

@@ -69,7 +69,7 @@ describe("Lyrics pattern parser", () => {
     expect(secondPhrase[0]).toEqual({ type: '.', length: 1, phrase: 2, syllable: 1});
   });
 
-  it("Star doesn't affect syllable or verse", () => {
+  it("Asterisk doesn't affect syllable or verse number", () => {
     const pattern = '.*.';
 
     const parsedLines = parser.parse([pattern]);
@@ -86,7 +86,7 @@ describe("Lyrics pattern parser", () => {
     expect(firstPhrase[2]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 2 });
   })
 
-  it("Multiple asterisks are correctly parsed into single token", () => {
+  it("Parses multiple asterisks into single token", () => {
     const pattern = '.*******.';
 
     const parsedLines = parser.parse([pattern]);
@@ -103,5 +103,22 @@ describe("Lyrics pattern parser", () => {
     expect(firstPhrase[2]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 2 });
   })
 
+  it("Parses verse skip", () => {
+    const pattern = '.|<7>.';
 
+    const parsedLines = parser.parse([pattern]);
+    expect(parsedLines).toHaveLength(1);
+
+    const firstLinePhrases = parsedLines[0];
+    expect(firstLinePhrases).toHaveLength(2);
+
+    const firstPhrase = firstLinePhrases[0];
+    expect(firstPhrase).toHaveLength(1);
+    expect(firstPhrase[0]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 1 });
+
+    const secondPhrase = firstLinePhrases[1];
+    expect(secondPhrase).toHaveLength(1);
+    expect(secondPhrase[0]).toEqual({ type: '.', length: 1, phrase: 7, syllable: 1 });
+
+  });
 })
