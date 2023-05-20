@@ -10,7 +10,7 @@ import PatternQuestionEl from "../Type/PatternQuestionEl";
 
 type MatchingTracker = {
   syllabizedVersePhrases: { [key: string | number]: SyllableToken[][]; };
-  syllabizedPhrases: { [key: number]: PatternEl[]; };
+  syllabizedPhrases: SyllableToken[][];
   origLyrics: LyricsType,
   verseOrderPointer: number;
 };
@@ -26,7 +26,7 @@ class LyricsMatcher {
     const matchingTracker: MatchingTracker = {
       syllabizedVersePhrases: {},
       origLyrics: lyrics,
-      syllabizedPhrases: {},
+      syllabizedPhrases: [],
       verseOrderPointer: 0
     };
     const output: SyllableToken[][][] = [];
@@ -48,6 +48,49 @@ class LyricsMatcher {
 
   private stringifyTokens(tokens: SyllableToken[][][]): string[] {
     return [''];
+  }
+
+  /**
+   * 
+   * @param phrase Number of phrase, numbed from 1
+   * @param syllable Number of syllable, numbered from 1. If negative, gives nth syllable from the end. Value 0 throws an exception.
+   */
+  private getSyllable(phrase: number, syllable: number, t: MatchingTracker): SyllableToken {
+    if (phrase < 1) {
+      throw new Error(`Phrase number ${phrase} is less than 1`)
+    }
+    if (syllable === 0) {
+      throw new Error(`Syllable number equals 0`)
+    }
+    
+    if (!(t.syllabizedPhrases.length < phrase)) {
+      const verseSymbol = t.origLyrics.order[t.verseOrderPointer];
+      if (!(verseSymbol in t.syllabizedVersePhrases)) {
+        const verseText = t.origLyrics.verses[verseSymbol];
+        const versePhrases = verseText.split('*');
+        t.syllabizedVersePhrases[verseSymbol] = versePhrases.map(txt => this._syllabizer.syllabize(txt.trim()));
+      }
+      t.syllabizedPhrases.push(...t.syllabizedVersePhrases[verseSymbol])
+      t.verseOrderPointer++;
+    }
+    const phraseEls = t.syllabizedPhrases[phrase - 1];
+    const phraseLen = phraseEls.length;
+    
+    if (syllable > 0 && phraseLen < syllable) {
+      throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`)
+    }
+    if (syllable < 0) {
+      if (syllable + phrase < 0) {
+        throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`);
+      }
+      return phraseEls[phraseLen + syllable]
+    }
+    else {
+      if (syllable > phraseLen) {
+        throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`)
+      }
+      return phraseEls[syllable - 1];
+    }
   }
 
   private matchPattern(element: PatternEl, tracker: MatchingTracker): SyllableToken {
@@ -74,7 +117,7 @@ class LyricsMatcher {
   }
 
   private matchStarPattern(element: PatternStarEl, tracker: MatchingTracker): SyllableToken {
-    throw new Error("Method not implemented.");
+    return {type: "alone", content: "*".repeat(element.length) }
   }
 
   private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
@@ -82,7 +125,13 @@ class LyricsMatcher {
   }
 
   private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
-    throw new Error("Method not implemented.");
+    const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
+    if (syllable.type == 'end' || syllable.type === 'alone') {
+      return {type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1)}
+    }
+    else {
+      return {type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1)}
+    }
   }
 }
 
