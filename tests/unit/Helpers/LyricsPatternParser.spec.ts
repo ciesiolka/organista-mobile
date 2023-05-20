@@ -249,4 +249,29 @@ describe("Lyrics pattern parser", () => {
     expect(firstPhrase[0]).toEqual({ type: '?', phrase: 1, syllable: 1 });
   });
 
+  it("Parses two lines", () => {
+    const pattern1 = '..';
+    const pattern2 = '~?';
+    const parsedLines = parser.parse([pattern1, pattern2]);
+    expect(parsedLines).toHaveLength(2);
+
+    const firstLinePhrases = parsedLines[0];
+    expect(firstLinePhrases).toHaveLength(1);
+
+    const firstPhrase = firstLinePhrases[0];
+    expect(firstPhrase).toHaveLength(2);
+
+    expect(firstPhrase[0]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 1 });
+    expect(firstPhrase[1]).toEqual({ type: '.', length: 1, phrase: 1, syllable: 2 });
+
+    const secondLinePhrases = parsedLines[1];
+    expect(secondLinePhrases).toHaveLength(1);
+
+    const secondPhrase = secondLinePhrases[0];
+    expect(secondPhrase).toHaveLength(2);
+
+    expect(secondPhrase[0]).toEqual({ type: '~', phrase: 2, syllable: 1 });
+    expect(secondPhrase[1]).toEqual({ type: '?', phrase: 2, syllable: 2 });
+  })
+
 })
