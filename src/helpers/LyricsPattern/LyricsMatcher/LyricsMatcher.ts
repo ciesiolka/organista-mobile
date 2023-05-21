@@ -57,12 +57,12 @@ class LyricsMatcher {
    */
   private getSyllable(phrase: number, syllable: number, t: MatchingTracker): SyllableToken {
     if (phrase < 1) {
-      throw new Error(`Phrase number ${phrase} is less than 1`)
+      throw new Error(`Phrase number ${phrase} is less than 1`);
     }
     if (syllable === 0) {
-      throw new Error(`Syllable number equals 0`)
+      throw new Error(`Syllable number equals 0`);
     }
-    
+
     if (!(t.syllabizedPhrases.length < phrase)) {
       const verseSymbol = t.origLyrics.order[t.verseOrderPointer];
       if (!(verseSymbol in t.syllabizedVersePhrases)) {
@@ -70,24 +70,24 @@ class LyricsMatcher {
         const versePhrases = verseText.split('*');
         t.syllabizedVersePhrases[verseSymbol] = versePhrases.map(txt => this._syllabizer.syllabize(txt.trim()));
       }
-      t.syllabizedPhrases.push(...t.syllabizedVersePhrases[verseSymbol])
+      t.syllabizedPhrases.push(...t.syllabizedVersePhrases[verseSymbol]);
       t.verseOrderPointer++;
     }
     const phraseEls = t.syllabizedPhrases[phrase - 1];
     const phraseLen = phraseEls.length;
-    
+
     if (syllable > 0 && phraseLen < syllable) {
-      throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`)
+      throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`);
     }
     if (syllable < 0) {
       if (syllable + phrase < 0) {
         throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`);
       }
-      return phraseEls[phraseLen + syllable]
+      return phraseEls[phraseLen + syllable];
     }
     else {
       if (syllable > phraseLen) {
-        throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`)
+        throw new Error(`Unable to fetch ${syllable}° syllable of ${phrase}° phrase. The phrase has only ${phraseLen} syllablles.`);
       }
       return phraseEls[syllable - 1];
     }
@@ -117,7 +117,7 @@ class LyricsMatcher {
   }
 
   private matchStarPattern(element: PatternStarEl, tracker: MatchingTracker): SyllableToken {
-    return {type: "alone", content: "*".repeat(element.length) }
+    return { type: "alone", content: "*".repeat(element.length) };
   }
 
   private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
@@ -127,10 +127,10 @@ class LyricsMatcher {
   private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
     const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
     if (syllable.type == 'end' || syllable.type === 'alone') {
-      return {type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1)}
+      return { type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1) };
     }
     else {
-      return {type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1)}
+      return { type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1) };
     }
   }
 }
