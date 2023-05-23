@@ -23,10 +23,10 @@ class SentenceSyllabizer {
 
   private syllabizeWord(word: string): SyllableToken[] {
     const tokens: SyllableToken[] = []
-    const wordElements = word.match(/\p{L}+|[^\p{L}\s]+/gui) ?? [];
+    const wordElements = word.match(/_\p{L}+_|\p{L}+|[^\p{L}\s]+/gui) ?? [];
     for (const element of wordElements) {
       const wordTokens: SyllableToken[] = [];
-      if (element.match(/\p{L}+/ui)) {
+      if (element.match(/_?\p{L}+_?/ui)) {
         const phones = this._phonetokenizer.tokenize(element);
         const syllables = this._syllabizer.syllabizePhones(phones);
         wordTokens.push(...this.syllablesToTokens(syllables));
