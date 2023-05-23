@@ -24,9 +24,14 @@ class SentenceSyllabizer {
   private syllabizeWord(word: string): SyllableToken[] {
     const tokens: SyllableToken[] = []
     const wordElements = word.match(/_\p{L}+_|\p{L}+|[^\p{L}\s]+/gui) ?? [];
-    for (const element of wordElements) {
+    for (const index in wordElements) {
+      const element = wordElements[index]
       const wordTokens: SyllableToken[] = [];
-      if (element.match(/_?\p{L}+_?/ui)) {
+      if (element.match(/_\p{L}+_/ui)) {
+        // whole syllable is underlined.
+        // Use index and tokens array to determine if the underlined syllable is last, first, mid, etc.
+      }
+      else if (element.match(/\p{L}+/ui)) {
         const phones = this._phonetokenizer.tokenize(element);
         const syllables = this._syllabizer.syllabizePhones(phones);
         wordTokens.push(...this.syllablesToTokens(syllables));
