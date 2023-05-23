@@ -117,7 +117,7 @@ class LyricsMatcher {
   }
 
   private matchStarPattern(element: PatternStarEl, tracker: MatchingTracker): SyllableToken {
-    return { type: "alone", content: "*".repeat(element.length) };
+    return { type: "alone", content: "*".repeat(element.length), underlined: false };
   }
 
   private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
@@ -127,10 +127,10 @@ class LyricsMatcher {
   private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
     const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
     if (syllable.type == 'end' || syllable.type === 'alone') {
-      return { type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1) };
+      return { type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1), underlined: false };
     }
     else {
-      return { type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1) };
+      return { type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1), underlined: false };
     }
   }
 }

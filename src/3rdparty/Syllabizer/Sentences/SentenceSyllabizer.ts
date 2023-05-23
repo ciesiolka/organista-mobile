@@ -31,7 +31,7 @@ class SentenceSyllabizer {
         const syllables = this._syllabizer.syllabizePhones(phones);
         wordTokens.push(...this.syllablesToTokens(syllables));
       } else {
-        wordTokens.push({type: 'joinWithNext', content: element});
+        wordTokens.push({ type: 'joinWithNext', content: element, underlined: false });
       }
       tokens.push(...wordTokens);
     }
@@ -59,14 +59,14 @@ class SentenceSyllabizer {
 
   private syllablesToTokens(phonesGroups: PhoneToken[][]): SyllableToken[] {
     if (!phonesGroups.find(group => this.hasVowel(group))) {
-      return [{type: "joinWithNext", content: phonesGroups.map(group => group.reduce<string>((acc, curr) => acc + curr.content, '')).join('')}]
+      return [{ type: "joinWithNext", content: phonesGroups.map(group => group.reduce<string>((acc, curr) => acc + curr.content, '')).join(''), underlined: false }]
     }
     if (phonesGroups.length === 1) {
-      return [{type: "alone", content: phonesGroups[0].reduce<string>((acc, curr) => acc + curr.content, '')}]
+      return [{ type: "alone", content: phonesGroups[0].reduce<string>((acc, curr) => acc + curr.content, ''), underlined: false }]
     }
     const output: SyllableToken[] = [];
     for (const phoneSyllable of phonesGroups) {
-      output.push({type: 'middle', content: phoneSyllable.reduce<string>((acc, curr) => acc + curr.content, '')})
+      output.push({ type: 'middle', content: phoneSyllable.reduce<string>((acc, curr) => acc + curr.content, ''), underlined: false })
     }
     output[0].type = 'start';
     output[output.length - 1].type = 'end';

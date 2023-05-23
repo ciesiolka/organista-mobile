@@ -68,7 +68,7 @@ class Syllabizer {
   }
 
   private arrayAt<T>(array: Array<T>, index: number): T | undefined {
-    if (index < 0) { return undefined; };
+    if (index < 0) { return undefined; }
     if (index >= array.length) { return undefined; }
     return array[index];
   }
