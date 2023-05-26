@@ -14,6 +14,7 @@ type MatchingTracker = {
   syllabizedPhrases: SyllableToken[][];
   origLyrics: LyricsType,
   verseOrderPointer: number;
+  nextUnderlined: boolean;
 };
 
 class LyricsMatcher {
@@ -28,7 +29,8 @@ class LyricsMatcher {
       syllabizedVersePhrases: {},
       origLyrics: lyrics,
       syllabizedPhrases: [],
-      verseOrderPointer: 0
+      verseOrderPointer: 0,
+      nextUnderlined: false
     };
     const output: SyllableToken[][][] = [];
 
@@ -121,7 +123,7 @@ class LyricsMatcher {
   }
 
   private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
-    throw new Error("Method not implemented.");
+    
   }
 
   private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
