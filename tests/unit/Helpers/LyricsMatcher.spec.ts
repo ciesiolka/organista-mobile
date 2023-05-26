@@ -18,6 +18,5 @@ describe("Lyrics Matcher", () => {
     }
 
     const matched = matcher.match(lyricsObject, parsedPattern);
-    console.log(matched);
   });
 });

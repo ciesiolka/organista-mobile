@@ -7,6 +7,9 @@ class MatchedLyrics {
     this._syllables = syllables;
   }
 
+  public getTokens(): SyllableToken[][][] {
+    return this._syllables;
+  }
 }
 
 export default MatchedLyrics;

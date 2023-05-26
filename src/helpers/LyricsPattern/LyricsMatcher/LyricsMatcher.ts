@@ -66,7 +66,9 @@ class LyricsMatcher {
       if (!(verseSymbol in t.syllabizedVersePhrases)) {
         const verseText = t.origLyrics.verses[verseSymbol];
         const versePhrases = verseText.split('*');
-        t.syllabizedVersePhrases[verseSymbol] = versePhrases.map(txt => this._syllabizer.syllabize(txt.trim()));
+        t.syllabizedVersePhrases[verseSymbol] = versePhrases
+          .map(txt => this._syllabizer.syllabize(txt.trim())
+          .map(e => { return {...e, verse: verseSymbol} }));
       }
       t.syllabizedPhrases.push(...t.syllabizedVersePhrases[verseSymbol]);
       t.verseOrderPointer++;
@@ -115,7 +117,7 @@ class LyricsMatcher {
   }
 
   private matchStarPattern(element: PatternStarEl, tracker: MatchingTracker): SyllableToken {
-    return { type: "alone", content: "*".repeat(element.length), underlined: false };
+    return { type: "alone", content: "*".repeat(element.length) };
   }
 
   private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
@@ -125,10 +127,10 @@ class LyricsMatcher {
   private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
     const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
     if (syllable.type == 'end' || syllable.type === 'alone') {
-      return { type: syllable.type, content: syllable.content + '_'.repeat(element.length - 1), underlined: false };
+      return { ...syllable, content: syllable.content + '_'.repeat(element.length - 1)};
     }
     else {
-      return { type: syllable.type, content: syllable.content + '-'.repeat(element.length - 1), underlined: false };
+      return { ...syllable, content: syllable.content + '-'.repeat(element.length - 1)};
     }
   }
 }
