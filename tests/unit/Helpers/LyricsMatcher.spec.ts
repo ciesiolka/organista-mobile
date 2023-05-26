@@ -21,13 +21,18 @@ describe("Lyrics Matcher", () => {
   }
 
   it("Correctly assigns single syllable", () => {
-    const abcS = prepareSingleLineAbc('.', 'a');
-    expect(abcS).toEqual('w: $01.~$1a');
+    const abc = prepareSingleLineAbc('.', 'a');
+    expect(abc).toEqual('w: $01.~$1a');
   });
 
   it("Correctly assigns two syllables", () => {
-    const abcS = prepareSingleLineAbc('..', 'abba');
-    expect(abcS).toEqual('w: $01.~$1ab-ba');
+    const abc = prepareSingleLineAbc('..', 'abba');
+    expect(abc).toEqual('w: $01.~$1ab-ba');
+  });
+
+  it("Correctly assigns two separated syllables", () => {
+    const abc = prepareSingleLineAbc('..', 'or or');
+    expect(abc).toEqual('w: $01.~$1or or');
   });
 
   it("Correctly assigns two syllabled, first prolonged", () => {
@@ -39,4 +44,9 @@ describe("Lyrics Matcher", () => {
     const abc = prepareSingleLineAbc('..-', 'abba');
     expect(abc).toEqual('w: $01.~$1ab-ba_');
   })
+
+  it("Correctly assigns three syllables", () => {
+    const abc = prepareSingleLineAbc("...", 'zbawienie');
+    expect(abc).toEqual("w: $01.~$1zba-wie-nie");
+  });
 });
