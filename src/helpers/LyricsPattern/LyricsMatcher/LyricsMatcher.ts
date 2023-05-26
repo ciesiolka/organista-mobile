@@ -7,6 +7,7 @@ import PatternTildeEl from "../Type/PatternTildeEl";
 import PatternStarEl from "../Type/PatternStarEl";
 import PatternStringEl from "../Type/PatternStringEl";
 import PatternQuestionEl from "../Type/PatternQuestionEl";
+import MatchedLyrics from "./MatchedLyrics";
 
 type MatchingTracker = {
   syllabizedVersePhrases: { [key: string | number]: SyllableToken[][]; };
@@ -22,7 +23,7 @@ class LyricsMatcher {
     this._syllabizer = new SentenceSyllabizer;
   }
 
-  public match(lyrics: LyricsType, patternLines: PatternEl[][][]): string[] {
+  public match(lyrics: LyricsType, patternLines: PatternEl[][][]): MatchedLyrics {
     const matchingTracker: MatchingTracker = {
       syllabizedVersePhrases: {},
       origLyrics: lyrics,
@@ -43,11 +44,7 @@ class LyricsMatcher {
       output.push(linePhraseTokens);
     }
 
-    return this.stringifyTokens(output);
-  }
-
-  private stringifyTokens(tokens: SyllableToken[][][]): string[] {
-    return [''];
+    return new MatchedLyrics(output);
   }
 
   /**

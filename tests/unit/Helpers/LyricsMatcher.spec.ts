@@ -1,4 +1,3 @@
-import SentenceSyllabizer from "@/3rdparty/Syllabizer/Sentences/SentenceSyllabizer";
 import LyricsMatcher from "@/helpers/LyricsPattern/LyricsMatcher/LyricsMatcher";
 import LyricsPatternParser from "@/helpers/LyricsPattern/LyricsPatternParser";
 import LyricsType from "@/helpers/SongDescription/LyricsType";
@@ -20,5 +19,5 @@ describe("Lyrics Matcher", () => {
 
     const matched = matcher.match(lyricsObject, parsedPattern);
     console.log(matched);
-  })
+  });
 });
