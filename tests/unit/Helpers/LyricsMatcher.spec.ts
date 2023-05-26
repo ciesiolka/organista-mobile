@@ -2,7 +2,7 @@ import LyricsMatcher from "@/helpers/LyricsPattern/LyricsMatcher/LyricsMatcher";
 import LyricsPatternParser from "@/helpers/LyricsPattern/LyricsPatternParser";
 import LyricsType from "@/helpers/SongDescription/LyricsType";
 
-describe("Lyrics Matcher", () => {
+describe("Lyrics Matcher correctly assignes", () => {
   const patternParser = new LyricsPatternParser();
   const matcher = new LyricsMatcher();
 
@@ -20,32 +20,37 @@ describe("Lyrics Matcher", () => {
     return matched.toAbcString();
   }
 
-  it("Correctly assigns single syllable", () => {
+  it("single syllable", () => {
     const abc = prepareSingleLineAbc('.', 'a');
     expect(abc).toEqual('w: $01.~$1a');
   });
 
-  it("Correctly assigns two syllables", () => {
+  it("two syllables", () => {
     const abc = prepareSingleLineAbc('..', 'abba');
     expect(abc).toEqual('w: $01.~$1ab-ba');
   });
 
-  it("Correctly assigns two separated syllables", () => {
+  it("two separated syllables", () => {
     const abc = prepareSingleLineAbc('..', 'or or');
     expect(abc).toEqual('w: $01.~$1or or');
   });
 
-  it("Correctly assigns two syllabled, first prolonged", () => {
+  it("two syllabled, first prolonged", () => {
     const abc = prepareSingleLineAbc('.-.', 'abba');
     expect(abc).toEqual('w: $01.~$1ab--ba');
   })
 
-  it("Correctly assigns two syllables, second prolonged", () => {
+  it("two syllables, second prolonged", () => {
     const abc = prepareSingleLineAbc('..-', 'abba');
     expect(abc).toEqual('w: $01.~$1ab-ba_');
   })
 
-  it("Correctly assigns three syllables", () => {
+  it("three syllables", () => {
+    const abc = prepareSingleLineAbc("...", 'zbawienie');
+    expect(abc).toEqual("w: $01.~$1zba-wie-nie");
+  });
+
+  it("three syllables", () => {
     const abc = prepareSingleLineAbc("...", 'zbawienie');
     expect(abc).toEqual("w: $01.~$1zba-wie-nie");
   });
