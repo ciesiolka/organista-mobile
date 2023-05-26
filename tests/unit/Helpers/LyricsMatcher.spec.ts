@@ -54,4 +54,19 @@ describe("Lyrics Matcher correctly assignes", () => {
     const abc = prepareSingleLineAbc("...", 'zbawienie');
     expect(abc).toEqual("w: $01.~$1zba-wie-nie");
   });
+
+  it("syllable and star before", () => {
+    const abc = prepareSingleLineAbc("*.", 'a');
+    expect(abc).toEqual("w: * $01.~$1a");
+  });
+
+  it("syllable and star after", () => {
+    const abc = prepareSingleLineAbc(".*", 'a');
+    expect(abc).toEqual("w: $01.~$1a *");
+  });
+
+  it("syllable and two stars before", () => {
+    const abc = prepareSingleLineAbc("**.", 'a');
+    expect(abc).toEqual("w: ** $01.~$1a");
+  })
 });
