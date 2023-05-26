@@ -29,4 +29,14 @@ describe("Lyrics Matcher", () => {
     const abcS = prepareSingleLineAbc('..', 'abba');
     expect(abcS).toEqual('w: $01.~$1ab-ba');
   });
+
+  it("Correctly assigns two syllabled, first prolonged", () => {
+    const abc = prepareSingleLineAbc('.-.', 'abba');
+    expect(abc).toEqual('w: $01.~$1ab--ba');
+  })
+
+  it("Correctly assigns two syllables, second prolonged", () => {
+    const abc = prepareSingleLineAbc('..-', 'abba');
+    expect(abc).toEqual('w: $01.~$1ab-ba_');
+  })
 });
