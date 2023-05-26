@@ -6,35 +6,27 @@ describe("Lyrics Matcher", () => {
   const patternParser = new LyricsPatternParser();
   const matcher = new LyricsMatcher();
 
-  it("Correctly assigns single syllable", () => {
-    const patternStr = '.';
-    const parsedPattern = patternParser.parse([patternStr]);
-
+  function prepareSingleLineAbc(pattern: string, lyricsText: string): string {
+    const parsedPattern = patternParser.parse([pattern]);
+  
     const lyricsObject: LyricsType = {
       order: [1],
       verses: {
-        1: "a"
+        1: lyricsText
       }
     }
-
+  
     const matched = matcher.match(lyricsObject, parsedPattern);
-    const abcS = matched.toAbcString();
+    return matched.toAbcString();
+  }
+
+  it("Correctly assigns single syllable", () => {
+    const abcS = prepareSingleLineAbc('.', 'a');
     expect(abcS).toEqual('w: $01.~$1a');
   });
 
   it("Correctly assigns two syllables", () => {
-    const patternStr = '..';
-    const parsedPattern = patternParser.parse([patternStr]);
-
-    const lyricsObject: LyricsType = {
-      order: [1],
-      verses: {
-        1: "abba"
-      }
-    }
-
-    const matched = matcher.match(lyricsObject, parsedPattern);
-    const abcS = matched.toAbcString();
+    const abcS = prepareSingleLineAbc('..', 'abba');
     expect(abcS).toEqual('w: $01.~$1ab-ba');
   });
 });
