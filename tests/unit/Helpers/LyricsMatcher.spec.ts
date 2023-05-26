@@ -18,5 +18,7 @@ describe("Lyrics Matcher", () => {
     }
 
     const matched = matcher.match(lyricsObject, parsedPattern);
+    const abcS = matched.toAbcString();
+    expect(abcS).toEqual('w: $01.~$1a');
   });
 });
