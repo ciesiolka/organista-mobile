@@ -22,7 +22,7 @@ class LyricsMatcher {
     this._syllabizer = new SentenceSyllabizer;
   }
 
-  public match(lyrics: LyricsType, patternLines: Array<Array<Array<PatternEl>>>): string[] {
+  public match(lyrics: LyricsType, patternLines: PatternEl[][][]): string[] {
     const matchingTracker: MatchingTracker = {
       syllabizedVersePhrases: {},
       origLyrics: lyrics,
@@ -63,7 +63,8 @@ class LyricsMatcher {
       throw new Error(`Syllable number equals 0`);
     }
 
-    if (!(t.syllabizedPhrases.length < phrase)) {
+    // syllabize missing phrase
+    if (t.syllabizedPhrases.length < phrase) {
       const verseSymbol = t.origLyrics.order[t.verseOrderPointer];
       if (!(verseSymbol in t.syllabizedVersePhrases)) {
         const verseText = t.origLyrics.verses[verseSymbol];
