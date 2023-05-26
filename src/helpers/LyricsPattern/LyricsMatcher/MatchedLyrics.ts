@@ -71,6 +71,8 @@ class MatchedLyrics {
           str += syllable.content;
           if (syllable.type === 'alone' || syllable.type === 'end') {
             str += ' ';
+          } else if (syllable.type === "start" || syllable.type === "middle") {
+            str += '-';
           }
           strLine += str;
         }

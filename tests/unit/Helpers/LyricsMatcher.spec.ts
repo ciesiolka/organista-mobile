@@ -21,4 +21,20 @@ describe("Lyrics Matcher", () => {
     const abcS = matched.toAbcString();
     expect(abcS).toEqual('w: $01.~$1a');
   });
+
+  it("Correctly assigns two syllables", () => {
+    const patternStr = '..';
+    const parsedPattern = patternParser.parse([patternStr]);
+
+    const lyricsObject: LyricsType = {
+      order: [1],
+      verses: {
+        1: "abba"
+      }
+    }
+
+    const matched = matcher.match(lyricsObject, parsedPattern);
+    const abcS = matched.toAbcString();
+    expect(abcS).toEqual('w: $01.~$1ab-ba');
+  });
 });
