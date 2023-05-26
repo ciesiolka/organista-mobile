@@ -14,6 +14,12 @@ const defaultConfig: configType = {
   underlinedStyle: "$3"
 }
 
+type AbcStringifyTracker = {
+  cfg: configType,
+  versesWithPrintedVerseNumber: { [key: string | number]: boolean },
+  previousVerse: string|number|undefined
+}
+
 class MatchedLyrics {
   private _syllables: SyllableToken[][][];
 
@@ -36,37 +42,40 @@ class MatchedLyrics {
    * Returns a ABC compliant text starting with w: for each text line
    */
   public toAbcString(config: configType = {}): string {
-    const cfg: configType = { ...defaultConfig, ...config };
-    const versesWithPrintedVerseNumber: { [key: string | number]: boolean } = {};
     const strLines: string[] = []
-    let previousVerse: string|number|undefined = undefined;
+    const tracker: AbcStringifyTracker = {
+      cfg: { ...defaultConfig, ...config },
+      previousVerse: undefined,
+      versesWithPrintedVerseNumber: {}
+    }
+
     for (const line of this._syllables) {
       let strLine = '';
       for (const phrase of line) {
         for (const syllable of phrase) {
           let str = '';
-          if (syllable.verse) {
+          if ("verse" in syllable && syllable.verse) {
             if (this.isRefrain(syllable.verse)) {
-              if (previousVerse !== syllable.verse) {
-                str += cfg.refrainStyle;
+              if (tracker.previousVerse !== syllable.verse) {
+                str += tracker.cfg.refrainStyle;
               }
-            } else if (!(syllable.verse in versesWithPrintedVerseNumber)) {
+            } else if (!(syllable.verse in tracker.versesWithPrintedVerseNumber)) {
               str += `$0${syllable.verse}.~`;
-              versesWithPrintedVerseNumber[syllable.verse] = true;
-              if (previousVerse !== syllable.verse) {
-                str += cfg.verseStyle;
+              tracker.versesWithPrintedVerseNumber[syllable.verse] = true;
+              if (tracker.previousVerse !== syllable.verse) {
+                str += tracker.cfg.verseStyle;
               }
             } else {
-              if (previousVerse !== syllable.verse) {
-                str += cfg.verseStyle
+              if (tracker.previousVerse !== syllable.verse) {
+                str += tracker.cfg.verseStyle
               }
             }
           }
           
-          previousVerse = syllable.verse;
+          tracker.previousVerse = syllable.verse;
           if (syllable.underlined) {
-            str += cfg.underlinedStyle
-            previousVerse = 'underlined';
+            str += tracker.cfg.underlinedStyle
+            tracker.previousVerse = 'underlined';
           }
           str += syllable.content;
           if (syllable.type === 'alone' || syllable.type === 'end') {
