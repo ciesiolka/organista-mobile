@@ -1,12 +1,12 @@
 import LyricsType from "@/helpers/SongDescription/LyricsType";
-import PatternEl from "../Type/PatternEl";
+import Slot from "../Type/Slot";
 import SentenceSyllabizer from "@/3rdparty/Syllabizer/Sentences/SentenceSyllabizer";
 import SyllableToken from "@/3rdparty/Syllabizer/Sentences/SyllableToken";
-import PatternDotEl from "../Type/PatternDotEl";
-import PatternTildeEl from "../Type/PatternTildeEl";
-import PatternStarEl from "../Type/PatternStarEl";
-import PatternStringEl from "../Type/PatternStringEl";
-import PatternQuestionEl from "../Type/PatternQuestionEl";
+import DotSlot from "../Type/DotSlot";
+import TildeSlot from "../Type/TildeSlot";
+import StarSlot from "../Type/StarSlot";
+import StringSlot from "../Type/StringSlot";
+import QuestionSlo from "../Type/QuestionSlot";
 import MatchedLyrics from "./MatchedLyrics";
 
 type MatchingTracker = {
@@ -24,7 +24,7 @@ class LyricsMatcher {
     this._syllabizer = new SentenceSyllabizer;
   }
 
-  public match(lyrics: LyricsType, patternLines: PatternEl[][][]): MatchedLyrics {
+  public match(lyrics: LyricsType, patternLines: Slot[][][]): MatchedLyrics {
     const matchingTracker: MatchingTracker = {
       syllabizedVersePhrases: {},
       origLyrics: lyrics,
@@ -95,7 +95,7 @@ class LyricsMatcher {
     }
   }
 
-  private matchPattern(element: PatternEl, tracker: MatchingTracker): SyllableToken {
+  private matchPattern(element: Slot, tracker: MatchingTracker): SyllableToken {
     switch (element.type) {
       case ".":
         return this.matchDotPattern(element, tracker);
@@ -110,23 +110,23 @@ class LyricsMatcher {
     }
   }
 
-  private matchQuestionPattern(element: PatternQuestionEl, tracker: MatchingTracker): SyllableToken {
+  private matchQuestionPattern(element: QuestionSlo, tracker: MatchingTracker): SyllableToken {
     throw new Error("Method not implemented.");
   }
 
-  private matchStringPattern(element: PatternStringEl, tracker: MatchingTracker): SyllableToken {
+  private matchStringPattern(element: StringSlot, tracker: MatchingTracker): SyllableToken {
     throw new Error("Method not implemented.");
   }
 
-  private matchStarPattern(element: PatternStarEl, tracker: MatchingTracker): SyllableToken {
+  private matchStarPattern(element: StarSlot, tracker: MatchingTracker): SyllableToken {
     return { type: "alone", content: "*".repeat(element.length) };
   }
 
-  private matchTildePattern(element: PatternTildeEl, tracker: MatchingTracker): SyllableToken {
+  private matchTildePattern(element: TildeSlot, tracker: MatchingTracker): SyllableToken {
     
   }
 
-  private matchDotPattern(element: PatternDotEl, tracker: MatchingTracker): SyllableToken {
+  private matchDotPattern(element: DotSlot, tracker: MatchingTracker): SyllableToken {
     const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
     if (syllable.type == 'end' || syllable.type === 'alone') {
       return { ...syllable, content: syllable.content + '_'.repeat(element.length - 1)};

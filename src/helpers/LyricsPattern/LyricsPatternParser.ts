@@ -1,11 +1,11 @@
-import PatternDotEl from "./Type/PatternDotEl";
-import PatternEl from "./Type/PatternEl";
-import PatternQuestionEl from "./Type/PatternQuestionEl";
-import PatternStarEl from "./Type/PatternStarEl";
-import PatternStringEl from "./Type/PatternStringEl";
-import PatternTildeEl from "./Type/PatternTildeEl";
+import DotSlot from "./Type/DotSlot";
+import Slot from "./Type/Slot";
+import QuestionSlot from "./Type/QuestionSlot";
+import StarSlot from "./Type/StarSlot";
+import StringSlot from "./Type/StringSlot";
+import TildeSlot from "./Type/TildeSlot";
 
-type PhrasePattern = Array<PatternEl>
+type PhrasePattern = Array<Slot>
 type PhraseLine = Array<PhrasePattern>
 type VerseTrackerType = { phrase: number, syllable: number };
 
@@ -53,7 +53,7 @@ class LyricsPatternParser {
     return output;
   }
 
-  private parseSymbol(symbol: string, verseTracker: VerseTrackerType): PatternEl {
+  private parseSymbol(symbol: string, verseTracker: VerseTrackerType): Slot {
     switch (symbol.charAt(0)) {
       case '.':
         return this.parseDotSymbol(symbol, verseTracker);
@@ -70,7 +70,7 @@ class LyricsPatternParser {
     throw new Error(`Unsupported symbol received: ${symbol}`);
   }
 
-  private parseStringSymbol(symbol: string, verseTracker: VerseTrackerType): PatternStringEl {
+  private parseStringSymbol(symbol: string, verseTracker: VerseTrackerType): StringSlot {
     const content = symbol.slice(1,-1);
     if (symbol.charAt(0) === '"') {
       return {
@@ -90,7 +90,7 @@ class LyricsPatternParser {
     throw new Error(`Unsupported symbol: ${symbol}`);
   }
 
-  private parseTildeSymbol(verseTracker: VerseTrackerType): PatternTildeEl {
+  private parseTildeSymbol(verseTracker: VerseTrackerType): TildeSlot {
     return {
       type: "~",
       phrase: verseTracker.phrase,
@@ -98,7 +98,7 @@ class LyricsPatternParser {
     }
   }
 
-  private parseDotSymbol(symbol: string, verseTracker: VerseTrackerType): PatternDotEl {
+  private parseDotSymbol(symbol: string, verseTracker: VerseTrackerType): DotSlot {
     return {
       phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
@@ -107,7 +107,7 @@ class LyricsPatternParser {
     }
   }
 
-  private parseStarSymbol(symbol: string): PatternStarEl {
+  private parseStarSymbol(symbol: string): StarSlot {
     return {
       type: '*',
       length: symbol.length
@@ -131,7 +131,7 @@ class LyricsPatternParser {
     }
   }
 
-  private parseQuestionSymbol(verseTracker: VerseTrackerType): PatternQuestionEl {
+  private parseQuestionSymbol(verseTracker: VerseTrackerType): QuestionSlot {
     return {
       phrase: verseTracker.phrase,
       syllable: ++(verseTracker.syllable),
