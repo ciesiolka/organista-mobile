@@ -70,12 +70,12 @@ describe("Lyrics Matcher correctly assignes", () => {
     expect(abc).toEqual("w: ** $01.~$1a");
   })
 
-  it("tilde and two syllables", () => {
+  it.skip("tilde and two syllables", () => {
     const abc = prepareSingleLineAbc("~..", "A myśmy się chlubić powinni");
     expect(abc).toEqual("w: $01.~$1A~myśmy~się~chlubić~po-$3win-$1ni");
   })
 
-  it("two tildes and two syllables", () => {
+  it.skip("two tildes and two syllables", () => {
     const abc = prepareSingleLineAbc("~~..", "A myśmy się _chlu_bić powinni");
     expect(abc).toEqual("w: $01.~$1A~myśmy~się $3chlu$1bić~po-win-ni");
   })

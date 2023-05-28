@@ -15,6 +15,7 @@ type MatchingTracker = {
   origLyrics: LyricsType,
   verseOrderPointer: number;
   nextUnderlined: boolean;
+  syllableIndex: number;
 };
 
 class LyricsMatcher {
@@ -30,7 +31,8 @@ class LyricsMatcher {
       origLyrics: lyrics,
       syllabizedPhrases: [],
       verseOrderPointer: 0,
-      nextUnderlined: false
+      nextUnderlined: false,
+      syllableIndex: 1
     };
     const output: SyllableToken[][][] = [];
 
@@ -46,7 +48,7 @@ class LyricsMatcher {
       output.push(linePhraseTokens);
     }
 
-    return new MatchedLyrics(output);
+    return new MatchedLyrics(output, matchingTracker.syllabizedVersePhrases);
   }
 
   /**
@@ -110,6 +112,16 @@ class LyricsMatcher {
     }
   }
 
+  private matchDotPattern(element: DotSlot, tracker: MatchingTracker): SyllableToken {
+    const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
+    if (syllable.type == 'end' || syllable.type === 'alone') {
+      return { ...syllable, content: syllable.content + '_'.repeat(element.length - 1)};
+    }
+    else {
+      return { ...syllable, content: syllable.content + '-'.repeat(element.length - 1)};
+    }
+  }
+
   private matchQuestionPattern(element: QuestionSlo, tracker: MatchingTracker): SyllableToken {
     throw new Error("Method not implemented.");
   }
@@ -123,17 +135,7 @@ class LyricsMatcher {
   }
 
   private matchTildePattern(element: TildeSlot, tracker: MatchingTracker): SyllableToken {
-    
-  }
-
-  private matchDotPattern(element: DotSlot, tracker: MatchingTracker): SyllableToken {
-    const syllable = this.getSyllable(element.phrase, element.syllable, tracker);
-    if (syllable.type == 'end' || syllable.type === 'alone') {
-      return { ...syllable, content: syllable.content + '_'.repeat(element.length - 1)};
-    }
-    else {
-      return { ...syllable, content: syllable.content + '-'.repeat(element.length - 1)};
-    }
+    throw new Error("Method not implemented.");
   }
 }
 

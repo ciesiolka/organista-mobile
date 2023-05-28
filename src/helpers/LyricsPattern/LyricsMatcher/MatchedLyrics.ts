@@ -17,14 +17,16 @@ const defaultConfig: configType = {
 type AbcStringifyTracker = {
   cfg: configType,
   versesWithPrintedVerseNumber: { [key: string | number]: boolean },
-  previousVerse: string|number|undefined
+  previousVerse: string | number | undefined
 }
 
 class MatchedLyrics {
   private _syllables: SyllableToken[][][];
+  private _syllabizedVerses: { [key: string | number]: SyllableToken[][] }
 
-  constructor(syllables: SyllableToken[][][]) {
+  constructor(syllables: SyllableToken[][][], syllabizedVersePhrases: { [key: string | number]: SyllableToken[][] }) {
     this._syllables = syllables;
+    this._syllabizedVerses = syllabizedVersePhrases;
   }
 
   public getTokens(): SyllableToken[][][] {
@@ -36,6 +38,10 @@ class MatchedLyrics {
       return false;
     }
     return verseNumber.match(/^[cr]/i) !== undefined;
+  }
+
+  public usedVerses(): (string | number)[] {
+    return Object.keys(this._syllabizedVerses);
   }
 
   /**
@@ -71,7 +77,7 @@ class MatchedLyrics {
               }
             }
           }
-          
+
           tracker.previousVerse = syllable.verse;
           if (syllable.underlined) {
             str += tracker.cfg.underlinedStyle
