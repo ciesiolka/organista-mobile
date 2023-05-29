@@ -36,7 +36,7 @@ onMounted(() => {
     "%%pagescale  1.3",
     "X:1",
     `${props.abc}`
-].join("\n"));
+  ].join("\n"));
 });
 
 </script>

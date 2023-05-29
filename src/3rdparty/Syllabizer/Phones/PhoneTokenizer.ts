@@ -1,4 +1,4 @@
-import type PhoneToken from "./PhoneToken";
+import type PhoneToken from "./PhoneToken"
 
 const vowels = 'aeiouyąęó'.split('');
 const consonants = 'bcćdfghjklłmnńpqrsśtvwxzźż'.split('');
@@ -8,7 +8,7 @@ const digraphs = {
   'd': 'zźż'.split(''),
   'q': ['u'],
   'r': ['z'],
-  's': ['z'],
+  's': ['z']
 }
 
 type State = {
@@ -118,6 +118,6 @@ class PhoneTokenizer {
 
     s.tokens.push(token);
   }
-};
+}
 
 export default PhoneTokenizer;

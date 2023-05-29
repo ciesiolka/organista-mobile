@@ -15,8 +15,8 @@
           <ion-title size="large">{{ $route.params.id }}</ion-title>
         </ion-toolbar>
       </ion-header>
-
-        <score-renderer :abc="abcContent"></score-renderer>
+        <matched-song></matched-song>
+        <!-- <score-renderer :abc="abcContent"></score-renderer> -->
           <!-- <div id="container">
         <strong class="capitalize">{{ $route.params.id }}</strong>
         <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
@@ -26,14 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import ScoreRenderer from '@/components/ScoreRenderer.vue';
+import MatchedSong from '@/components/MatchedSong.vue';
+// import ScoreRenderer from '@/components/ScoreRenderer.vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-
-const abcContent = `K:C
-M:4/4
-L:1/4
-C C C2
-w: $2Ktokolwiek~wie,~co~zrobił $3Je-$1zus`;
 </script>
 
 <style scoped>

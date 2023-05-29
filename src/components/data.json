@@ -1,0 +1,68 @@
+{
+  "id": 1,
+  "title": "Hejnał wszyscy zaśpiewajmy",
+  "meter": "8.8.8",
+  "melody": [
+    {
+      "sources": [
+        {
+          "book": "Miod.",
+          "page": 9
+        }
+      ],
+      "abcMelody": "M:C\nL:1/4\nK:C\nD A A ^G | A> F E D | d c B A | B c B A | A/B/ c A G | A> F E D |]\n",
+      "lyricsPattern": "........|........|.-......."
+    },
+    {
+      "sources": [
+        {
+          "book": "Siedl. XLI",
+          "page": 46,
+          "ownNumber": 19
+        }
+      ],
+      "abcMelody": "M:C\nL:1/4\nK:C\nD A A G | A F E D | d c B A | B c B A | A/B/ c A G | A F E D |]\n",
+      "lyricsPattern": "........|........|.-......."
+    }
+  ],
+  "lyrics": [
+    {
+      "sources": [
+        {
+          "book": "Miod.",
+          "page": 9
+        }
+      ],
+      "lyrics": {
+        "1": "Hejnał wszyscy zaśpiewajmy, * cześć i chwałę Bogu dajmy, * nabożnie k’Niemu wołajmy.",
+        "2": "Mocny Boże z wysokości, * Ty światłem swej wszechmocności * rozpędź piekielne ciemności.",
+        "3": "Jużci ona noc minęła, * co wszystek świat ucisnęła, * a początek z grzechu wzięła.",
+        "4": "Na to Boży Syn jedyny, * by ciemności zniósł i winy * w żywot zstąpił świętej Panny.",
+        "5": "Temu Bóg dał nas w opiekę, * by czartowską zniósł z nas rękę * i piekielną odjął mękę.",
+        "6": "Ten łaskawie nas przyjmuje, * z wiecznych ciemności wyjmuje, * światłość zbawienną gotuje.",
+        "7": "Tylko nam ta noc zostanie, * co jest na odpoczywanie, * a odnawia pracowanie.",
+        "8": "Lecz i prace, i wsze sprawy * da szczęśliwie Bóg łaskawy, * byle Bogu był człek prawy.",
+        "9": "Boże, prawdziwa światłości, * Ty oświeć nasze ciemności * wiodąc do swojej jasności.",
+        "10": "Daj nam szczęśliwe powstanie, * Twojej łaski przeżegnanie, * a dobroci wysławianie.",
+        "11": "Boże wiecznej wszechmocności, * broń od złości i przykrości, * nagłej, wiecznej śmiertelności.",
+        "12": "Ty, któryś jest dobrotliwy, * odmień swój gniew sprawiedliwy, * a racz nam być miłościwy.",
+        "13": "Amen, amen, raczysz to dać, * byśmy się tam mogli dostać, * na wieki z Tobą królować."
+      },
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    }
+  ]
+}
