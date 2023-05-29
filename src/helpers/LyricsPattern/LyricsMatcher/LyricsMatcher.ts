@@ -6,7 +6,7 @@ import DotSlot from "../Type/DotSlot";
 import TildeSlot from "../Type/TildeSlot";
 import StarSlot from "../Type/StarSlot";
 import StringSlot from "../Type/StringSlot";
-import QuestionSlo from "../Type/QuestionSlot";
+import QuestionSlot from "../Type/QuestionSlot";
 import MatchedLyrics from "./MatchedLyrics";
 
 type MatchingTracker = {
@@ -122,7 +122,7 @@ class LyricsMatcher {
     }
   }
 
-  private matchQuestionPattern(element: QuestionSlo, tracker: MatchingTracker): SyllableToken {
+  private matchQuestionPattern(element: QuestionSlot, tracker: MatchingTracker): SyllableToken {
     throw new Error("Method not implemented.");
   }
 
